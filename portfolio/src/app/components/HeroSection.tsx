@@ -1,64 +1,82 @@
-"use client"
-import { useState, useEffect } from 'react';
-import { Code, Database, Shield, Brain } from 'lucide-react';
+"use client";
+import { useState, useEffect } from "react";
+import { SiNextdotjs, SiTypescript, SiReact } from "react-icons/si";
+import { FaCode, FaDatabase, FaShieldAlt, FaBrain } from "react-icons/fa";
+import { RiTailwindCssFill, RiNextjsFill } from "react-icons/ri";
 
-export default function HeroSection() {
-  const [typedText, setTypedText] = useState('');
-  const textToType = 'Building the digital future.';
+export function TypingEffect({ text }: { text: string }) {
+  const [typedText, setTypedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   useEffect(() => {
-    if (currentIndex < textToType.length) {
+    if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
-        setTypedText(prev => prev + textToType[currentIndex]);
+        setTypedText((prev) => prev + text[currentIndex]);
         setCurrentIndex(currentIndex + 1);
       }, 100);
-      
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex]);
+  }, [currentIndex, text]);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
-      {/* Background animated elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
+    <h2 className="text-2xl md:text-3xl font-medium text-gray-300 mb-8 h-10">
+      {typedText}
+      <span className="animate-blink">|</span>
+    </h2>
+  );
+}
+
+export function TechBadge({ icon: Icon, color }: { icon: any; color: string }) {
+  return (
+    <span className="p-3 rounded-full border border-gray-700 hover:border-teal-400 hover:cursor-pointer transition-transform duration-300 hover:scale-110">
+      <Icon size={30} className={color} />
+    </span>
+  );
+}
+
+export function InterestCard({
+  icon: Icon,
+  title,
+  description,
+  color,
+}: {
+  icon: any;
+  title: string;
+  description: string;
+  color: string;
+}) {
+  return (
+    <div className="p-4 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-teal-400 hover:cursor-pointer transition-all duration-300">
+      <div className={`w-12 h-12 mx-auto mb-3 p-2 bg-gray-700 rounded-full flex items-center justify-center text-${color}-400`}>
+        <Icon size={24} />
       </div>
-      
-      {/* Hero Content */}
+      <h3 className="text-lg font-medium text-white mb-1">{title}</h3>
+      <p className="text-sm text-gray-400">{description}</p>
+    </div>
+  );
+}
+
+export default function HeroSection() {
+  return (
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
       <div className="relative container mx-auto px-6 flex flex-col items-center justify-center min-h-screen py-12 text-center">
         <div className="max-w-3xl">
-          <div className="mb-2 inline-block">
-            <div className="flex items-center justify-center gap-2 text-xs font-bold bg-gray-800 text-teal-400 py-1 px-3 rounded-full border border-gray-700 mb-4">
-              <span className="inline-block w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span>
-              <span>Available for new opportunities</span>
-            </div>
-            </div>
-          
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">Sandrah Lewa</span>
           </h1>
-          
-          <h2 className="text-2xl md:text-3xl font-medium text-gray-300 mb-8 h-10">
-            {typedText}<span className="animate-blink">|</span>
-          </h2>
-          
+          <TypingEffect text="Building the digital future." />
           <p className="text-lg text-gray-400 mb-8">
-            Computer Science graduate from JKUAT with a passion for creating innovative web solutions. 
-            Skilled in modern frontend technologies and eager to explore Cybersecurity and AI.
+            Computer Science student at JKUAT with a passion for creating innovative web solutions.
           </p>
-          
-          {/* Tech badges */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            <span className="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700 hover:border-teal-400 transition-colors duration-300">Next.js</span>
-            <span className="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700 hover:border-teal-400 transition-colors duration-300">TypeScript</span>
-            <span className="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700 hover:border-teal-400 transition-colors duration-300">Tailwind CSS</span>
-            <span className="px-4 py-2 bg-gray-800 text-gray-300 rounded-full text-sm border border-gray-700 hover:border-teal-400 transition-colors duration-300">React</span>
+
+          {/* Tech Stack with Colored Icons */}
+          <div className="flex items-center justify-center gap-4 md:gap-6 mb-10">
+            <TechBadge icon={RiNextjsFill} color="text-black dark:text-white" />
+            <TechBadge icon={SiTypescript} color="text-blue-500" />
+            <TechBadge icon={RiTailwindCssFill} color="text-teal-400" />
+            <TechBadge icon={SiReact} color="text-cyan-400" />
           </div>
-          
-          {/* CTA buttons */}
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="px-8 py-3 bg-gradient-to-r from-teal-500 to-blue-500 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300">
               View Projects
@@ -69,41 +87,15 @@ export default function HeroSection() {
           </div>
         </div>
 
+        {/* Interest Cards */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="p-4 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-teal-400 transition-all duration-300">
-            <div className="w-12 h-12 mx-auto mb-3 p-2 bg-gray-700 rounded-full text-teal-400 flex items-center justify-center">
-              <Code size={24} />
-            </div>
-            <h3 className="text-lg font-medium text-white mb-1">Web Dev</h3>
-            <p className="text-sm text-gray-400">Frontend specialist</p>
-          </div>
-          
-          <div className="p-4 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-teal-400 transition-all duration-300">
-            <div className="w-12 h-12 mx-auto mb-3 p-2 bg-gray-700 rounded-full text-blue-400 flex items-center justify-center">
-              <Database size={24} />
-            </div>
-            <h3 className="text-lg font-medium text-white mb-1">Software Eng</h3>
-            <p className="text-sm text-gray-400">Full-stack solutions</p>
-          </div>
-             {/* Interest areas */}
-          <div className="p-4 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-teal-400 transition-all duration-300">
-            <div className="w-12 h-12 mx-auto mb-3 p-2 bg-gray-700 rounded-full text-purple-400 flex items-center justify-center">
-              <Shield size={24} />
-            </div>
-            <h3 className="text-lg font-medium text-white mb-1">Cyber Security</h3>
-            <p className="text-sm text-gray-400">Learning & growing</p>
-          </div>
-          
-          <div className="p-4 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-teal-400 transition-all duration-300">
-            <div className="w-12 h-12 mx-auto mb-3 p-2 bg-gray-700 rounded-full text-yellow-400 flex items-center justify-center">
-              <Brain size={24} />
-            </div>
-            <h3 className="text-lg font-medium text-white mb-1">AI</h3>
-            <p className="text-sm text-gray-400">Exploring possibilities</p>
-          </div>
+          <InterestCard icon={FaCode} title="Web Dev" description="Frontend specialist" color="teal" />
+          <InterestCard icon={FaDatabase} title="Software Eng" description="Full-stack solutions" color="blue" />
+          <InterestCard icon={FaShieldAlt} title="Cyber Security" description="Learning & growing" color="purple" />
+          <InterestCard icon={FaBrain} title="AI" description="Exploring possibilities" color="yellow" />
         </div>
-        
-        {/* Scroll indicator */}
+
+        {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex items-start justify-center p-1">
             <div className="w-1 h-2 bg-gray-400 rounded-full animate-scroll"></div>
@@ -113,5 +105,3 @@ export default function HeroSection() {
     </div>
   );
 }
-
-
